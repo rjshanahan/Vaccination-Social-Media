@@ -9,6 +9,7 @@ Included in this repository is code for the following webscrapers:
 - *<a href="https://www.blogger.com" target="_blank">Blogspot/Google Blogger</a>* webscraper
 - *<a href="http://forums.whirlpool.net.au/" target="_blank">Whirlpool</a>* webscraper
 - Other forum type webscraper
+- Also included is R code for additional pre-processing, feature selection and visualisations.  
   
 Refer to the table below for a full list of sites scraped.  
   
