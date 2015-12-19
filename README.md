@@ -3,13 +3,16 @@
   
 This repository contains the 'variation on a theme' webscraper code for social media text analysis. The analyses identified text clusters and text topics for various social media vaccination-related posts from 2015.
 
+####<a href="https://rjshanahan.shinyapps.io/shinyapp_vaccine_01" target="_blank">Interactive vaccination social media text analytics visualisations.</a>
+
 Included in this repository is code for the following webscrapers:
 - Facebook page and group *<a href="https://github.com/rjshanahan/facebook_m_scraper" target="_blank">webscraper</a>* 
 - Twitter *<a href="https://github.com/rjshanahan/twitter_scraper" target="_blank">webscraper</a>* 
 - *<a href="https://www.blogger.com" target="_blank">Blogspot/Google Blogger</a>* webscraper
 - *<a href="http://forums.whirlpool.net.au/" target="_blank">Whirlpool</a>* webscraper
 - Other forum type webscraper
-- Also included is R code for additional pre-processing, feature selection and visualisations.  
+- Also included is R code for additional pre-processing, feature selection and visualisations. 
+- A <a href="https://github.com/rjshanahan/Vaccination-Social-Media/wiki" target="_blank">wiki page</a> is also available containing information about the visualisation app.
 
 The Twitter and Facebook programs use *<a href="http://www.seleniumhq.org/" target="_blank">Selenium</a>* (and ChromeDriver) to automate user behaviour within a browser session to load a specific Twitter page (no login) or login to Facebook mobile site, expand collapsible sections for 2015 or load data from dynamic scrolling. Once the pages are rendered the HTML is extracted and sieved through *<a href="http://www.crummy.com/software/BeautifulSoup/bs4/doc/" target="_blank">BeautifulSoup</a>*. Note: it will continue scraping until 1) end of feed is reached, 2) manual interrupt by killing the connection. The traditional forum sites use the Python 'requests' module and *<a href="http://www.crummy.com/software/BeautifulSoup/bs4/doc/" target="_blank">BeautifulSoup</a>*.
   
