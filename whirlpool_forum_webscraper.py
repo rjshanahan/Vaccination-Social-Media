@@ -4,7 +4,6 @@
 
 from bs4 import BeautifulSoup
 import requests
-import requests
 import codecs
 import csv
 import pprint as pp
