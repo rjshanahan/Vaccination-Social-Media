@@ -12,14 +12,6 @@ from collections import OrderedDict
 
 
 #fora of interest
-# page1 = "http://forums.whirlpool.net.au/archive/2642710"
-# page2 = "http://forums.whirlpool.net.au/archive/2603328"
-
-# Home > Real estate: http://forums.whirlpool.net.au/forum/138?g=226
-# Finance > Loans: http://forums.whirlpool.net.au/forum/150?g=368
-# Finance thread: http://forums.whirlpool.net.au/forum/150 (for finance savvy blog ideas)
-# Lifestyle > Lifestyle: http://forums.whirlpool.net.au/forum/71?g=208
-
 # pages = [page1, page2]
 pages = ["http://forums.whirlpool.net.au/archive/2642710",
         "http://forums.whirlpool.net.au/archive/2603328"
@@ -33,7 +25,8 @@ pages = ["http://forums.whirlpool.net.au/archive/2642710",
 
 def clean_str(string):
     """
-    text cleaning
+    Tokenization/string cleaning for all datasets except for SST.
+    Original taken from https://github.com/yoonkim/CNN_sentence/blob/master/process_data.py
     """
     string = re.sub(r"[^A-Za-z0-9(),!?\'\`]", " ", string)
     string = re.sub(r"\'s", " \'s", string)
@@ -68,7 +61,7 @@ def blogxtract(page):
 
     soup = BeautifulSoup(make_request(page), "html.parser")
     
-    blog_list = []
+#     blog_list = []
     
     problemchars = re.compile(r'[\[=\+/&<>;:!\\|*^\'"\?%#$@)(_\,\.\t\r\n0-9-—\]]')
     prochar = '[(=\-\+/&<>;|\'"\?%#$@\,\._)]'
@@ -115,7 +108,7 @@ def blogxtract(page):
             pass
      
     #call csv writer function and output file
-    writer_csv(blog_list, url)
+#     writer_csv(blog_list, url)
     
     return pp.pprint(blog_list[0:2])
 
@@ -123,7 +116,9 @@ def blogxtract(page):
 #function to write CSV - uses part of URL as file name    
 def writer_csv(blog_list, url):
     
-    file_out = "whirlpool_{page}.csv".format(page = url[-7:])
+#     file_out = "whirlpool_{page}.csv".format(page = url[-7:])
+    file_out = "whirlpool_{page}.csv".format(page = url)
+
     
     with open(file_out, 'w') as csvfile:
         
@@ -139,5 +134,7 @@ def writer_csv(blog_list, url):
                         
 
 #loop through each URL and process
+blog_list = []
 for url in pages:
     blogxtract(url)
+writer_csv(blog_list, 'forums.whirlpool.net.au')
