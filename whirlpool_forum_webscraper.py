@@ -12,6 +12,15 @@ import re
 from collections import OrderedDict
 
 
+#fora of interest
+# page1 = "http://forums.whirlpool.net.au/archive/2642710"
+# page2 = "http://forums.whirlpool.net.au/archive/2603328"
+
+# Home > Real estate: http://forums.whirlpool.net.au/forum/138?g=226
+# Finance > Loans: http://forums.whirlpool.net.au/forum/150?g=368
+# Finance thread: http://forums.whirlpool.net.au/forum/150 (for finance savvy blog ideas)
+# Lifestyle > Lifestyle: http://forums.whirlpool.net.au/forum/71?g=208
+
 # pages = [page1, page2]
 pages = ["http://forums.whirlpool.net.au/archive/2642710",
         "http://forums.whirlpool.net.au/archive/2603328"
@@ -21,6 +30,29 @@ pages = ["http://forums.whirlpool.net.au/archive/2642710",
         'http://forums.whirlpool.net.au/archive/2635472',
         'http://forums.whirlpool.net.au/archive/2356207',
         'http://forums.whirlpool.net.au/archive/2626820']
+
+
+def clean_str(string):
+    """
+    text cleaning
+    """
+    string = re.sub(r"[^A-Za-z0-9(),!?\'\`]", " ", string)
+    string = re.sub(r"\'s", " \'s", string)
+    string = re.sub(r"\'ve", " \'ve", string)
+    string = re.sub(r"n\'t", " n\'t", string)
+    string = re.sub(r"\'re", " \'re", string)
+    string = re.sub(r"\'d", " \'d", string)
+    string = re.sub(r"\'ll", " \'ll", string)
+    string = re.sub(r",", " , ", string)
+    string = re.sub(r"!", " ! ", string)
+    string = re.sub(r"\(", " \( ", string)
+    string = re.sub(r"\)", " \) ", string)
+    string = re.sub(r"\?", " \? ", string)
+    string = re.sub(r"\s{2,}", " ", string)
+    string = re.sub(r"[(=\-\+/&<>;|\'\?%#$@\,\._0-9)]", '', string)
+    string = re.sub(r"[']", '', string)
+    return string.strip().lower()
+
 
 #function to call web page
 def make_request(data):
@@ -40,8 +72,8 @@ def blogxtract(page):
     blog_list = []
     
     problemchars = re.compile(r'[\[=\+/&<>;:!\\|*^\'"\?%#$@)(_\,\.\t\r\n0-9-—\]]')
-    prochar = '[(=\+/&<>;|\'"\?%#$@\,\._)]'
-    replacewords = ['www','http']
+    prochar = '[(=\-\+/&<>;|\'"\?%#$@\,\._)]'
+    replacewords = ['www','https','http',' com ', ' au ']
 
     #parse HTML and build dict of desired elements
     for i in soup.find_all( 'div', {'class': 'replytext bodytext'}):
@@ -64,9 +96,11 @@ def blogxtract(page):
                 }
              
             #cleanse text for problem characters
-            for ch in prochar:
-                if ch in blog_dict['blog_text']:
-                    blog_dict['blog_text'] = problemchars.sub(' ', blog_dict['blog_text']).strip()
+#             for ch in prochar:
+#                 if ch in blog_dict['blog_text']:
+#                     blog_dict['blog_text'] = problemchars.sub(' ', blog_dict['blog_text']).strip()
+            for t in blog_dict['blog_text']:      
+                blog_dict['blog_text'] = clean_str(blog_dict['blog_text'])
             #cleanse text for unncesssary date text
             for dt in blog_dict['date']:
                 blog_dict['date'] = blog_dict['date'].replace('posted ','').split(',')[0]
